@@ -135,7 +135,7 @@ export default function AdminPage() {
         totalIntegrantes,
       });
 
-      // Calcular jerseys por tallas
+      // Calcular jerseys por tallas - CORREGIDO
       const conteoTallas: TallasCount = {};
       
       // Contar jerseys principales de registros
@@ -146,14 +146,16 @@ export default function AdminPage() {
         }
       });
 
-      // Contar jerseys de integrantes
+      // Contar jerseys de integrantes - AHORA CON TIPADO CORRECTO
       dataCompleta.forEach(registro => {
-        registro.integrantes?.forEach((integrante: any) => {
-          if (integrante.talla) {
-            const talla = integrante.talla;
-            conteoTallas[talla] = (conteoTallas[talla] || 0) + 1;
-          }
-        });
+        if (registro.integrantes && Array.isArray(registro.integrantes)) {
+          registro.integrantes.forEach((integrante: Integrante) => {
+            if (integrante.talla) {
+              const talla = integrante.talla;
+              conteoTallas[talla] = (conteoTallas[talla] || 0) + 1;
+            }
+          });
+        }
       });
 
       setTallasCount(conteoTallas);
@@ -319,7 +321,7 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* Lista de registros (resto del código igual) */}
+      {/* Lista de registros */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="px-6 py-4 border-b bg-gray-50">
           <h2 className="text-xl font-semibold text-gray-800">Registros Detallados</h2>
@@ -390,8 +392,6 @@ export default function AdminPage() {
                       </svg>
                     </div>
                   </div>
-
-                  
                 </div>
 
                 {/* Integrantes (expandible) */}
