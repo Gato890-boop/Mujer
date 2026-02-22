@@ -148,7 +148,7 @@ export default function AdminPage() {
 
       // Contar jerseys de integrantes
       dataCompleta.forEach(registro => {
-        registro.integrantes?.forEach(integrante => {
+        registro.integrantes?.forEach((integrante: any) => {
           if (integrante.talla) {
             const talla = integrante.talla;
             conteoTallas[talla] = (conteoTallas[talla] || 0) + 1;
